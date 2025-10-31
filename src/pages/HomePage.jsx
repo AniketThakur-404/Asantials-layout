@@ -11,15 +11,25 @@ import heroVideo from '../assets/Coin_in_Nature_Climate_Video.mp4';
 export default function HomePage() {
   return (
     <>
-      <HeroWith3D heroVideoSrc={heroVideo} />
+      <div className="relative">
+        <HeroWith3D heroVideoSrc={heroVideo} />
+      </div>
 
-      <ProductGrid title="Latest Drop" products={latestDrop} />
+      <div className="relative z-10 -mt-16 sm:-mt-24">
+        <ProductGrid title="Latest Drop" products={latestDrop} />
+      </div>
 
-      <VideoBanner />
+      <div className="relative z-10">
+        <VideoBanner />
+      </div>
 
-      <ProductGrid title="More From Asantials" products={moreFrom} />
+      <div className="relative z-10">
+        <ProductGrid title="More From Asantials" products={moreFrom} />
+      </div>
 
-      <StoreGrid />
+      <div className="relative z-10">
+        <StoreGrid />
+      </div>
     </>
   );
 }

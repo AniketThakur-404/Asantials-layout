@@ -17,6 +17,26 @@ body {
 }
 
 /* ===========================
+   Hero Parallax
+   =========================== */
+
+.hero-parallax {
+  --parallax-offset: 0px;
+}
+
+.hero-parallax__layer {
+  transform: translateY(calc(var(--parallax-offset) * -0.45));
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+.hero-parallax__content {
+  transform: translateY(calc(var(--parallax-offset) * -0.2));
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+/* ===========================
    Vertical Marquee (Bottom → Top, one line at a time)
    =========================== */
 
@@ -92,6 +112,11 @@ body {
   }
   .marquee-vertical__group:nth-child(2) {
     display: none;
+  }
+  .hero-parallax__layer,
+  .hero-parallax__content {
+    transition: none;
+    transform: none !important;
   }
 }
 
