@@ -5,30 +5,12 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 // The top-most marquee bar
-const marqueeItems = [
-  "ASANTIALS",
-  "NEW ARRIVALS WEEKLY",
-  "EXPRESS SHIPPING",
-  "MEMBERS ONLY DROPS",
-  "LIMITED EDITION RELEASES",
-];
-
 const TopAnnouncement = () => (
-  <div className="relative h-16 w-full overflow-hidden bg-neutral-900 text-white">
-    <div className="marquee-vertical text-[10px] uppercase tracking-[0.35em]">
-      <div className="marquee-vertical__group">
-        {marqueeItems.map((item, idx) => (
-          <span key={idx}>{item}</span>
-        ))}
-      </div>
-      <div
-        aria-hidden
-        className="marquee-vertical__group"
-      >
-        {marqueeItems.map((item, idx) => (
-          <span key={`duplicate-${idx}`}>{item}</span>
-        ))}
-      </div>
+  <div className="bg-neutral-900 text-white">
+    <div className="mx-auto flex h-10 max-w-7xl items-center justify-center px-4">
+      <span className="text-[10px] uppercase tracking-[0.4em] text-white/80">
+        Extension Of Your Expression
+      </span>
     </div>
   </div>
 );
