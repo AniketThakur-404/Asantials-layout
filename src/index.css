@@ -23,8 +23,8 @@ body {
 .marquee-vertical {
   position: relative;
   display: block;
+  height: 100%;
   overflow: hidden;
-  height: var(--marquee-bar-h);
   background: #111;
 }
 
@@ -50,11 +50,11 @@ body {
 }
 
 .marquee-vertical__group {
-  display: grid;
-  grid-auto-rows: var(--marquee-bar-h);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-items: center;
-  gap: 0;
+  gap: 1.75rem;
+  padding-block: 1rem;
   animation: marquee-vertical var(--marquee-duration) linear infinite;
   will-change: transform;
 }
@@ -64,10 +64,6 @@ body {
 }
 
 .marquee-vertical__item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--marquee-bar-h);
   font-size: 0.625rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
@@ -86,7 +82,7 @@ body {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(100%);
+    transform: translateY(-100%);
   }
 }
 
