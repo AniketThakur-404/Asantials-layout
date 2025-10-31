@@ -5,7 +5,7 @@
   color-scheme: light;
 
   /* Tweak these to match your video exactly */
-  --marquee-bar-h: 26px;
+  --marquee-bar-h: 16px;
   --marquee-duration: 14s;
   --marquee-fade: 18px;
 
