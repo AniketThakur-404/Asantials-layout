@@ -1,14 +1,10 @@
 @import "tailwindcss";
 
-/* ---- Theme ---- */
 :root {
   color-scheme: light;
-
-  /* Tweak these to match your video exactly */
-  --marquee-bar-h: 16px;
+  --marquee-bar-h: 26px;
   --marquee-duration: 14s;
   --marquee-fade: 18px;
-
   --shipping-duration: 18s;
 }
 
@@ -17,7 +13,27 @@ body {
 }
 
 /* ===========================
-   Vertical Marquee (Bottom → Top, one line at a time)
+   Hero Parallax
+   =========================== */
+
+.hero-parallax {
+  --parallax-offset: 0px;
+}
+
+.hero-parallax__layer {
+  transform: translateY(calc(var(--parallax-offset) * -0.45));
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+.hero-parallax__content {
+  transform: translateY(calc(var(--parallax-offset) * -0.2));
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+/* ===========================
+   Vertical Marquee (Bottom → Top)
    =========================== */
 
 .marquee-vertical {
@@ -53,8 +69,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.75rem;
-  padding-block: 1rem;
+  gap: 1.5rem;
+  padding-block: 0.75rem;
   animation: marquee-vertical var(--marquee-duration) linear infinite;
   will-change: transform;
 }
@@ -83,15 +99,6 @@ body {
   }
   100% {
     transform: translateY(-100%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-vertical__group {
-    animation: none !important;
-  }
-  .marquee-vertical__group:nth-child(2) {
-    display: none;
   }
 }
 
@@ -134,5 +141,19 @@ body {
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-vertical__group {
+    animation: none !important;
+  }
+  .marquee-vertical__group:nth-child(2) {
+    display: none;
+  }
+  .hero-parallax__layer,
+  .hero-parallax__content {
+    transition: none;
+    transform: none !important;
   }
 }
