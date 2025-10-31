@@ -13,7 +13,7 @@ export default function StoreCard({ store }) {
       <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/30 to-transparent p-6 text-white">
         <div className="space-y-2">
           <h3 className="text-sm uppercase tracking-[0.4em]">
-            {store.city} Store
+            {store.city.toUpperCase()} Store
           </h3>
           <p className="max-w-xs text-[11px] uppercase tracking-[0.25em] text-white/80">
             {store.address}

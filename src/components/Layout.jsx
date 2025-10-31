@@ -4,13 +4,34 @@ import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-// The top-most marquee bar
+const marqueeItems = [
+  "ASANTIALS",
+  "NEW ARRIVALS WEEKLY",
+  "EXPRESS SHIPPING",
+  "MEMBERS ONLY DROPS",
+  "LIMITED EDITION RELEASES",
+];
+
 const TopAnnouncement = () => (
-  <div className="bg-neutral-900 text-white">
-    <div className="mx-auto flex h-10 max-w-7xl items-center justify-center px-4">
-      <span className="text-[10px] uppercase tracking-[0.4em] text-white/80">
-        Extension Of Your Expression
-      </span>
+  <div
+    className="relative h-16 w-full overflow-hidden bg-neutral-900 text-white"
+    role="marquee"
+    aria-label="Site announcements vertical marquee"
+  >
+    <div className="mx-auto h-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="marquee-vertical group h-full text-[10px] uppercase tracking-[0.35em]">
+        <div className="marquee-vertical__group">
+          {marqueeItems.map((item, idx) => (
+            <span className="marquee-vertical__item" key={idx}>{item}</span>
+          ))}
+        </div>
+
+        <div aria-hidden className="marquee-vertical__group">
+          {marqueeItems.map((item, idx) => (
+            <span className="marquee-vertical__item" key={`duplicate-${idx}`}>{item}</span>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 );
@@ -20,11 +41,9 @@ const Layout = () => {
     <div className="bg-neutral-50 text-neutral-900 min-h-screen flex flex-col">
       <TopAnnouncement />
       <Navbar />
-      
       <main className="flex-grow">
-        <Outlet /> 
+        <Outlet />
       </main>
-
       <Footer />
     </div>
   );

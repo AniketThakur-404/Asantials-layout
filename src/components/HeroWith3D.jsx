@@ -30,6 +30,10 @@ export default function HeroWith3D({ heroVideoSrc }) {
 
       <div className="pointer-events-none absolute inset-0 z-30 bg-gradient-to-t from-black/25 via-transparent to-black/30" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-32 bg-neutral-900/75" />
+      <div
+        className="pointer-events-none absolute bottom-0 right-0 z-30 h-20 w-48 bg-gradient-to-l from-neutral-900 via-neutral-900/80 to-transparent"
+        aria-hidden="true"
+      />
 
       <div className="pointer-events-none absolute inset-0 z-40 flex items-end justify-center pb-16">
         <button className="pointer-events-auto rounded-full border border-white/70 px-8 py-3 text-[11px] uppercase tracking-[0.35em] text-white/90 transition hover:bg-white hover:text-neutral-900">

@@ -11,19 +11,19 @@ import heroVideo from '../assets/Coin_in_Nature_Climate_Video.mp4';
 export default function HomePage() {
   return (
     <>
-      {/* Hero section with 3D model */}
+      {/* Immersive hero video */}
       <HeroWith3D heroVideoSrc={heroVideo} />
 
-      {/* First product grid with parallax */}
+      {/* Latest drop grid */}
       <ProductGrid title="Latest Drop" products={latestDrop} />
 
-      {/* Second video section */}
+      {/* Brand story banner */}
       <VideoBanner />
 
-      {/* Second product grid with parallax */}
+      {/* More products grid */}
       <ProductGrid title="More From Asantials" products={moreFrom} />
 
-      {/* Store grid with hover effect */}
+      {/* Store list */}
       <StoreGrid />
     </>
   );

@@ -1,9 +1,137 @@
 @import "tailwindcss";
 
+/* ---- Theme ---- */
 :root {
   color-scheme: light;
+
+  /* Tweak these to match your video exactly */
+  --marquee-bar-h: 36px;          /* height of the top bar */
+  --marquee-duration: 14s;        /* vertical speed (lower = faster) */
+  --marquee-fade: 18px;           /* fade size at top/bottom */
+
+  --shipping-duration: 18s;       /* horizontal speed */
 }
 
 body {
   @apply bg-neutral-50 text-neutral-900 antialiased;
+}
+
+/* ===========================
+   Vertical Marquee (Bottom → Top, one line at a time)
+   =========================== */
+
+.marquee-vertical {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: var(--marquee-bar-h);
+  background: #111; /* matches bg-neutral-900 area under fades */
+}
+
+/* Soft fades (top & bottom) */
+.marquee-vertical::before,
+.marquee-vertical::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--marquee-fade);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.marquee-vertical::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(17,17,17,0.9), rgba(17,17,17,0));
+}
+
+.marquee-vertical::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(17,17,17,0.9), rgba(17,17,17,0));
+}
+
+/* Two synced stacks for seamless loop */
+.marquee-vertical__group {
+  display: grid;
+  grid-auto-rows: var(--marquee-bar-h); /* each item = full bar height */
+  align-items: center;
+  justify-items: center;
+  gap: 0;                                /* one line at a time */
+  animation: marquee-vertical var(--marquee-duration) linear infinite;
+  will-change: transform;
+}
+
+.marquee-vertical__group:nth-child(2) {
+  /* start the duplicate halfway through for seamlessness */
+  animation-delay: calc(var(--marquee-duration) / -2);
+}
+
+/* Item styling */
+.marquee-vertical__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--marquee-bar-h);
+  font-size: 0.625rem;          /* 10px */
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Pause on hover */
+.marquee-vertical:hover .marquee-vertical__group {
+  animation-play-state: paused;
+}
+
+/* Bottom → Top motion, entering from bottom */
+@keyframes marquee-vertical {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(+100%); }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-vertical__group { animation: none !important; }
+  .marquee-vertical__group:nth-child(2) { display: none; }
+}
+
+/* ===========================
+   Horizontal Shipping Marquee (unchanged behavior, tunable speed)
+   =========================== */
+
+.shipping-marquee {
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.5rem;
+  overflow: hidden;
+}
+
+.shipping-marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  white-space: nowrap;
+  padding-block: 0.75rem;
+  animation: shipping-marquee-scroll var(--shipping-duration) linear infinite;
+  will-change: transform;
+}
+
+.shipping-marquee__item {
+  font-size: 0.625rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1;
+}
+
+.shipping-marquee:hover .shipping-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes shipping-marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
