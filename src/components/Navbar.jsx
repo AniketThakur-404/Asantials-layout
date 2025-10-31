@@ -1,6 +1,7 @@
 // src/components/Navbar.jsx
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ShoppingCart } from 'lucide-react';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -8,14 +9,14 @@ const Navbar = () => {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
     <div
       className={`sticky top-0 z-40 border-b border-neutral-200 transition-colors duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur" : "bg-white"
+        scrolled ? 'bg-white/95 backdrop-blur' : 'bg-white'
       }`}
     >
       <div className="mx-auto grid h-16 max-w-7xl grid-cols-[auto_1fr_auto] items-center px-4 sm:px-6 lg:px-8">
@@ -41,6 +42,14 @@ const Navbar = () => {
           </button>
           <Link to="/login" className="hidden sm:block hover:text-neutral-600">
             Login
+          </Link>
+          <Link
+            to="/cart"
+            className="flex items-center gap-2 hover:text-neutral-600"
+            aria-label="Cart"
+          >
+            <ShoppingCart className="h-4 w-4" strokeWidth={1.5} />
+            <span className="hidden sm:inline">Cart</span>
           </Link>
         </div>
       </div>

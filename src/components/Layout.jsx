@@ -5,11 +5,11 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 const marqueeItems = [
-  "ASANTIALS",
-  "NEW ARRIVALS WEEKLY",
-  "EXPRESS SHIPPING",
-  "MEMBERS ONLY DROPS",
-  "LIMITED EDITION RELEASES",
+  'ASANTIALS',
+  'NEW ARRIVALS WEEKLY',
+  'EXPRESS SHIPPING',
+  'MEMBERS ONLY DROPS',
+  'LIMITED EDITION RELEASES',
 ];
 
 const TopAnnouncement = () => (
@@ -22,13 +22,17 @@ const TopAnnouncement = () => (
       <div className="marquee-vertical group h-full text-[10px] uppercase tracking-[0.35em]">
         <div className="marquee-vertical__group">
           {marqueeItems.map((item, idx) => (
-            <span className="marquee-vertical__item" key={idx}>{item}</span>
+            <span className="marquee-vertical__item" key={item || idx}>
+              {item}
+            </span>
           ))}
         </div>
 
         <div aria-hidden className="marquee-vertical__group">
           {marqueeItems.map((item, idx) => (
-            <span className="marquee-vertical__item" key={`duplicate-${idx}`}>{item}</span>
+            <span className="marquee-vertical__item" key={`${item || idx}-duplicate`}>
+              {item}
+            </span>
           ))}
         </div>
       </div>
@@ -41,9 +45,11 @@ const Layout = () => {
     <div className="bg-neutral-50 text-neutral-900 min-h-screen flex flex-col">
       <TopAnnouncement />
       <Navbar />
+
       <main className="flex-grow">
         <Outlet />
       </main>
+
       <Footer />
     </div>
   );

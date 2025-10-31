@@ -42,12 +42,13 @@ const SiteFooter = () => (
             Asantials
           </span>
         </div>
-        <div className="grid grid-cols-2 gap-8 text-sm">
+
+        <div className="grid grid-cols-2 gap-8 text-sm text-neutral-700">
           <div>
             <div className="mb-3 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
               Help
             </div>
-            <ul className="space-y-2 text-neutral-700">
+            <ul className="space-y-2">
               <li>
                 <Link to="/login" className="hover:underline">
                   Members Login
@@ -80,11 +81,12 @@ const SiteFooter = () => (
               </li>
             </ul>
           </div>
+
           <div>
             <div className="mb-3 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
               Company
             </div>
-            <ul className="space-y-2 text-neutral-700">
+            <ul className="space-y-2">
               <li>
                 <Link to="/story" className="hover:underline">
                   Story
@@ -118,6 +120,7 @@ const SiteFooter = () => (
             </ul>
           </div>
         </div>
+
         <div className="text-sm">
           <div className="mb-3 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
             Connect
@@ -154,6 +157,7 @@ const SiteFooter = () => (
         </div>
       </div>
     </div>
+
     <div className="bg-neutral-900 py-2 text-center text-[10px] uppercase tracking-[0.4em] text-white">
       Connect
     </div>

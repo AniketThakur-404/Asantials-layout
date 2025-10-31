@@ -5,11 +5,11 @@
   color-scheme: light;
 
   /* Tweak these to match your video exactly */
-  --marquee-bar-h: 36px;          /* height of the top bar */
-  --marquee-duration: 14s;        /* vertical speed (lower = faster) */
-  --marquee-fade: 18px;           /* fade size at top/bottom */
+  --marquee-bar-h: 36px;
+  --marquee-duration: 14s;
+  --marquee-fade: 18px;
 
-  --shipping-duration: 18s;       /* horizontal speed */
+  --shipping-duration: 18s;
 }
 
 body {
@@ -25,10 +25,9 @@ body {
   display: block;
   overflow: hidden;
   height: var(--marquee-bar-h);
-  background: #111; /* matches bg-neutral-900 area under fades */
+  background: #111;
 }
 
-/* Soft fades (top & bottom) */
 .marquee-vertical::before,
 .marquee-vertical::after {
   content: "";
@@ -42,37 +41,34 @@ body {
 
 .marquee-vertical::before {
   top: 0;
-  background: linear-gradient(to bottom, rgba(17,17,17,0.9), rgba(17,17,17,0));
+  background: linear-gradient(to bottom, rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0));
 }
 
 .marquee-vertical::after {
   bottom: 0;
-  background: linear-gradient(to top, rgba(17,17,17,0.9), rgba(17,17,17,0));
+  background: linear-gradient(to top, rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0));
 }
 
-/* Two synced stacks for seamless loop */
 .marquee-vertical__group {
   display: grid;
-  grid-auto-rows: var(--marquee-bar-h); /* each item = full bar height */
+  grid-auto-rows: var(--marquee-bar-h);
   align-items: center;
   justify-items: center;
-  gap: 0;                                /* one line at a time */
+  gap: 0;
   animation: marquee-vertical var(--marquee-duration) linear infinite;
   will-change: transform;
 }
 
 .marquee-vertical__group:nth-child(2) {
-  /* start the duplicate halfway through for seamlessness */
   animation-delay: calc(var(--marquee-duration) / -2);
 }
 
-/* Item styling */
 .marquee-vertical__item {
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--marquee-bar-h);
-  font-size: 0.625rem;          /* 10px */
+  font-size: 0.625rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.72);
@@ -81,25 +77,30 @@ body {
   white-space: nowrap;
 }
 
-/* Pause on hover */
 .marquee-vertical:hover .marquee-vertical__group {
   animation-play-state: paused;
 }
 
-/* Bottom → Top motion, entering from bottom */
 @keyframes marquee-vertical {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(+100%); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }
 
-/* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .marquee-vertical__group { animation: none !important; }
-  .marquee-vertical__group:nth-child(2) { display: none; }
+  .marquee-vertical__group {
+    animation: none !important;
+  }
+  .marquee-vertical__group:nth-child(2) {
+    display: none;
+  }
 }
 
 /* ===========================
-   Horizontal Shipping Marquee (unchanged behavior, tunable speed)
+   Horizontal Shipping Marquee
    =========================== */
 
 .shipping-marquee {
@@ -132,6 +133,10 @@ body {
 }
 
 @keyframes shipping-marquee-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
