@@ -3,21 +3,25 @@ import React from 'react';
 
 export default function StoreCard({ store }) {
   return (
-    <div className="group relative aspect-[3/4] w-full overflow-hidden bg-neutral-100">
-      <img
-        src={store.img}
-        alt={store.city}
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-      />
+    <div className="group">
+      {/* Flat tile: no radius, no shadow, no ring */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-100">
+        <img
+          src={store.img}
+          alt={`${store.city} storefront`}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        />
 
-      <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/30 to-transparent p-6 text-white">
-        <div className="space-y-2">
-          <h3 className="text-sm uppercase tracking-[0.4em]">
-            {store.city.toUpperCase()} Store
-          </h3>
-          <p className="max-w-xs text-[11px] uppercase tracking-[0.25em] text-white/80">
-            {store.address}
-          </p>
+        {/* No gradient overlay (kept flat to match the video) */}
+        <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+          <div className="translate-y-1 transition-transform duration-300 group-hover:translate-y-0">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.4em]">
+              {store.city?.toUpperCase()} Store
+            </h3>
+            <p className="mt-1 max-w-xs text-[11px] uppercase tracking-[0.25em] opacity-80">
+              {store.address}
+            </p>
+          </div>
         </div>
       </div>
     </div>

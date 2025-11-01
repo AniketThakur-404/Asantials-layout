@@ -167,3 +167,11 @@ body {
    .marquee-vertical::after { bottom: 0; }
    ---------------------------------------------------------------
 */
+/* Hide horizontal/vertical scrollbars but keep scrolling */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE/Edge legacy */
+  scrollbar-width: none;    /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Edge (Chromium) */
+}
