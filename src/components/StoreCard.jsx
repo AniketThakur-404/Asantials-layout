@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function StoreCard({ store }) {
   return (
-    <div className="group relative aspect-[3/4] overflow-hidden bg-neutral-100">
+    <div className="group relative aspect-[3/4] w-full overflow-hidden bg-neutral-100">
       <img
         src={store.img}
         alt={store.city}

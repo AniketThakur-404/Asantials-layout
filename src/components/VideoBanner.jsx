@@ -4,9 +4,9 @@ import bannerVideo from '../assets/banner-video.mp4';
 
 export default function VideoBanner({ videoSrc = bannerVideo }) {
   return (
-    <section className="relative py-24">
+    <section className="relative py-2">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 border-t border-neutral-200 py-10 uppercase md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-4 border-t border-neutral-200 py-4 uppercase md:flex-row md:items-center md:justify-between">
           <h2 className="text-xs tracking-[0.35em] text-neutral-600">
             Extension Of Your Expression
           </h2>
@@ -15,7 +15,7 @@ export default function VideoBanner({ videoSrc = bannerVideo }) {
           </button>
         </div>
       </div>
-      <div className="relative mx-auto mt-8 h-[70vh] w-full max-w-7xl overflow-hidden bg-black">
+      <div className="relative mx-auto mt-4 h-[68vh] w-full max-w-7xl overflow-hidden bg-black">
         <video
           className="h-full w-full object-cover"
           src={videoSrc}

@@ -5,7 +5,7 @@ export default function ProductCard({ item }) {
 
   return (
     <article className="group flex h-full flex-col">
-      <div className="relative aspect-[4/5] overflow-hidden bg-neutral-100">
+      <div className="relative aspect-[5/6] overflow-hidden bg-neutral-100">
         <img
           src={img}
           alt={title}
@@ -19,9 +19,9 @@ export default function ProductCard({ item }) {
         )}
       </div>
 
-      <div className="px-1 pt-5 pb-2">
+      <div className="px-2 pt-4">
         <div className="flex items-start justify-between gap-4">
-          <h3 className="flex-1 pr-4 text-[10px] uppercase leading-4 tracking-[0.25em] text-neutral-900">
+          <h3 className="flex-1 text-[10px] uppercase leading-4 tracking-[0.28em] text-neutral-900">
             {title}
           </h3>
           {price && (

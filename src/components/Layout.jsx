@@ -42,7 +42,7 @@ const TopAnnouncement = () => (
 
 const Layout = () => {
   return (
-    <div className="bg-neutral-50 text-neutral-900 min-h-screen flex flex-col">
+    <div className="bg-white text-neutral-900 min-h-screen flex flex-col">
       <TopAnnouncement />
       <Navbar />
 

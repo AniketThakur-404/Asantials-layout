@@ -5,16 +5,24 @@ import StoreCard from './StoreCard';
 
 export default function StoreGrid() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-      <div className="border-t border-neutral-200 py-10">
+    <section className="mx-auto max-w-[1600px] px-4 py-12 sm:px-6 md:px-8 lg:px-10">
+      <div className="border-t border-neutral-200 py-4">
         <h2 className="text-xs uppercase tracking-[0.35em] text-neutral-600">
           Asantials Stores
         </h2>
       </div>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {storeLocations.map((store) => (
-          <StoreCard key={store.city} store={store} />
-        ))}
+
+      <div className="-mx-4 sm:-mx-6 md:-mx-8 lg:-mx-10">
+        <div className="flex gap-4 overflow-x-auto px-4 pb-4 sm:gap-5 sm:px-6 md:gap-6 md:px-8 lg:gap-8 lg:px-10 snap-x snap-mandatory">
+          {storeLocations.map((store) => (
+            <div
+              key={store.city}
+              className="w-[min(420px,80vw)] shrink-0 snap-start"
+            >
+              <StoreCard store={store} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
