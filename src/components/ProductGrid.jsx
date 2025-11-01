@@ -1,47 +1,46 @@
-// src/components/ProductGrid.jsx
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
-import ProductCard from './ProductCard';
+import React from "react";
+import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
+import ProductCard from "./ProductCard";
 
 const SectionHeader = ({ title }) => (
   <div className="flex flex-col gap-4 border-t border-neutral-200 py-10 uppercase md:flex-row md:items-center md:justify-between">
     <h2 className="text-xs tracking-[0.35em] text-neutral-600">{title}</h2>
-    <button className="flex items-center gap-2 self-start rounded-full border border-neutral-900 px-4 py-2 text-[10px] tracking-[0.35em] transition hover:bg-neutral-900 hover:text-white md:self-auto">
+    <button className="flex items-center gap-2 self-start rounded-full border border-neutral-900 px-5 py-2 text-[10px] tracking-[0.32em] transition hover:bg-neutral-900 hover:text-white md:self-auto">
       Discover More
       <ChevronRight className="h-3 w-3" />
     </button>
   </div>
 );
 
-// Define the animation for each card
 const cardVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
-  },
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
 };
 
 export default function ProductGrid({ title, products }) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    // ↓ This width makes 4 cards ~300px wide when gap-x is 3rem (48px)
+    //    4 * 300 + 3 * 48 = 1344 → so we cap at 1344px
+    <section className="mx-auto max-w-[1344px] px-6 md:px-8 lg:px-10 py-16">
       <SectionHeader title={title} />
-      <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+
+      {/* EXACT 4-UP ON LARGE, with wider horizontal gaps + tall vertical gaps */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-2">
         {products.map((item, idx) => (
           <motion.div
             key={item.title + idx}
             variants={cardVariants}
             initial="hidden"
-            whileInView="visible" // Triggers animation when in view
-            viewport={{ once: true, amount: 0.3 }} // Trigger when 30% visible
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
             className="h-full"
           >
             <ProductCard item={item} />
           </motion.div>
         ))}
       </div>
+
       <div className="flex justify-center py-12">
         <button className="rounded-full border border-neutral-900 px-8 py-3 text-[11px] uppercase tracking-[0.3em] transition hover:bg-neutral-900 hover:text-white">
           Discover More
@@ -50,4 +49,3 @@ export default function ProductGrid({ title, products }) {
     </section>
   );
 }
-

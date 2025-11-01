@@ -1,6 +1,6 @@
 // src/components/Navbar.jsx
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 
 const Navbar = () => {
@@ -13,47 +13,77 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const navItem =
+    'px-2 uppercase tracking-[0.25em] text-[11px] transition-colors duration-200';
+
   return (
-    <div
-      className={`sticky top-0 z-40 border-b border-neutral-200 transition-colors duration-300 ${
-        scrolled ? 'bg-white/95 backdrop-blur' : 'bg-white'
+    <header
+      className={`sticky top-0 z-40 border-t-2 border-black border-b border-neutral-200 ${
+        scrolled ? 'bg-neutral-100' : 'bg-neutral-100'
       }`}
     >
-      <div className="mx-auto grid h-16 max-w-7xl grid-cols-[auto_1fr_auto] items-center px-4 sm:px-6 lg:px-8">
-        <Link
-          to="/"
-          className="font-black tracking-[0.6em] text-sm text-neutral-900"
-        >
-          ASANTIALS
-        </Link>
-
-        <nav className="hidden md:flex items-center justify-center gap-10 text-[11px] uppercase tracking-[0.35em] text-neutral-900">
-          <Link to="/new-in" className="hover:text-neutral-600">
-            New In
+      {/* relative wrapper so we can absolutely center the middle nav */}
+      <div className="relative mx-auto h-14 w-full max-w-[1280px] px-6">
+        {/* Left: Logo */}
+        <div className="absolute left-6 top-1/2 -translate-y-1/2">
+          <Link
+            to="/"
+            className="font-extrabold tracking-[0.55em] text-[13px] leading-none text-neutral-900"
+          >
+            ASANTIALS
           </Link>
-          <span className="cursor-pointer hover:text-neutral-600">Apparel</span>
-          <span className="cursor-pointer hover:text-neutral-600">Custom</span>
-          <span className="cursor-pointer hover:text-neutral-600">Stores</span>
+        </div>
+
+        {/* Center: Nav (perfect center like BLUORNG) */}
+        <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:flex items-center gap-14">
+          <NavLink
+            to="/new-in"
+            className={({ isActive }) =>
+              `${navItem} ${isActive ? 'text-neutral-900 font-semibold' : 'text-neutral-600 hover:text-neutral-900'}`
+            }
+          >
+            NEW IN
+          </NavLink>
+          <NavLink
+            to="/apparel"
+            className={({ isActive }) =>
+              `${navItem} ${isActive ? 'text-neutral-900 font-semibold' : 'text-neutral-600 hover:text-neutral-900'}`
+            }
+          >
+            APPAREL
+          </NavLink>
+          <NavLink
+            to="/stores"
+            className={({ isActive }) =>
+              `${navItem} ${isActive ? 'text-neutral-900 font-semibold' : 'text-neutral-600 hover:text-neutral-900'}`
+            }
+          >
+            STORES
+          </NavLink>
         </nav>
 
-        <div className="flex items-center justify-end gap-4 text-[11px] uppercase tracking-[0.35em] text-neutral-900">
-          <button className="hidden sm:block hover:text-neutral-600">
-            Search
+        {/* Right: Actions */}
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-10">
+          <button className="hidden sm:block uppercase tracking-[0.25em] text-[11px] text-neutral-700 hover:text-neutral-900">
+            SEARCH
           </button>
-          <Link to="/login" className="hidden sm:block hover:text-neutral-600">
-            Login
+          <Link
+            to="/login"
+            className="hidden sm:block uppercase tracking-[0.25em] text-[11px] text-neutral-700 hover:text-neutral-900"
+          >
+            LOGIN
           </Link>
           <Link
             to="/cart"
-            className="flex items-center gap-2 hover:text-neutral-600"
             aria-label="Cart"
+            className="flex items-center gap-2 uppercase tracking-[0.25em] text-[11px] text-neutral-700 hover:text-neutral-900"
           >
             <ShoppingCart className="h-4 w-4" strokeWidth={1.5} />
-            <span className="hidden sm:inline">Cart</span>
+            <span className="hidden sm:inline">CART</span>
           </Link>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

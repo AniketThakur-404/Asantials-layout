@@ -14,7 +14,7 @@ const marqueeItems = [
 
 const TopAnnouncement = () => (
   <div
-    className="relative h-10 w-full overflow-hidden bg-neutral-900 text-white"
+    className="relative h-6 w-full overflow-hidden bg-neutral-900 text-white"
     role="marquee"
     aria-label="Site announcements vertical marquee"
   >
