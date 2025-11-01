@@ -5,8 +5,8 @@ import ProductCard from "./ProductCard";
 
 const SectionHeader = ({ title }) => (
   <div className="flex flex-col gap-4 border-t border-neutral-200 py-4 uppercase md:flex-row md:items-center md:justify-between">
-    <h2 className="text-xs tracking-[0.35em] text-neutral-600">{title}</h2>
-    <button className="flex items-center gap-2 self-start rounded-full border border-neutral-900 px-5 py-2 text-[10px] tracking-[0.32em] transition hover:bg-neutral-900 hover:text-white sm:self-end md:self-auto">
+    <h2 className="text-center text-xs tracking-[0.35em] text-neutral-600 md:text-left">{title}</h2>
+    <button className="flex items-center gap-2 self-center rounded-full border border-neutral-900 px-5 py-2 text-[10px] tracking-[0.32em] transition hover:bg-neutral-900 hover:text-white md:self-auto">
       Discover More
       <ChevronRight className="h-3 w-3" />
     </button>
@@ -20,12 +20,10 @@ const cardVariants = {
 
 export default function ProductGrid({ title, products }) {
   return (
-    // Keep desktop width capped so the four-up layout keeps similar card widths
-    <section className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 md:px-8 lg:px-2 py-9">
+    <section className="mx-auto w-full max-w-[1600px] px-4 py-9 sm:px-6 lg:px-10 xl:px-12">
       <SectionHeader title={title} />
 
-      {/* Four-up on large screens with consistent spacing */}
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:gap-5 lg:grid-cols-4 lg:gap-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
         {products.map((item, idx) => (
           <motion.div
             key={item.title + idx}

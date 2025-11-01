@@ -15,7 +15,7 @@ export default function VideoBanner({ videoSrc = bannerVideo }) {
           </button>
         </div>
       </div>
-      <div className="relative mx-auto mt-4 h-[68vh] w-full max-w-7xl overflow-hidden bg-black">
+      <div className="relative mt-4 h-[68vh] w-full overflow-hidden bg-black">
         <video
           className="h-full w-full object-cover"
           src={videoSrc}
