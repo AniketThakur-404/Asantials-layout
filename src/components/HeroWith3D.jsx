@@ -8,7 +8,7 @@ export default function HeroWith3D({ heroVideoSrc }) {
   const videoSource = heroVideoSrc || defaultHeroVideo;
 
   return (
-    <section className="relative h-[88vh] w-full overflow-hidden bg-neutral-900">
+    <section className="relative flex w-full flex-col overflow-hidden bg-neutral-900 min-h-[480px] md:h-[88vh] md:min-h-[600px]">
       <video
         className="absolute inset-0 z-10 h-full w-full object-cover"
         src={videoSource}
@@ -18,28 +18,27 @@ export default function HeroWith3D({ heroVideoSrc }) {
         playsInline
       />
 
-      <iframe
-        title="ASANTIALS 3D Experience"
-        src={SPLINE_SCENE_URL}
-        frameBorder="0"
-        width="100%"
-        height="100%"
-        allow="autoplay; fullscreen"
-        className="absolute inset-0 z-20 h-full w-full"
-      />
+      <div className="relative flex-1">
+        <iframe
+          title="ASANTIALS 3D Experience"
+          src={SPLINE_SCENE_URL}
+          frameBorder="0"
+          width="100%"
+          height="100%"
+          allow="autoplay; fullscreen"
+          className="absolute inset-0 z-20 h-full w-full"
+        />
+      </div>
 
-      {/* Optional top fade (fixed class typo) */}
-      <div className="pointer-events-none absolute inset-0 z-30 bg-gradient-to-t via-transparent to-black/30" />
+      <div className="pointer-events-none absolute inset-0 z-30 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-      {/* FULL-WIDTH WHITE STRIP to hide the badge row */}
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 z-30 h-12 md:h-16 bg-white pointer-events-auto"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-10 bg-white/95 backdrop-blur md:h-14"
       />
 
-      {/* CTA sits above the white strip */}
-      <div className="absolute inset-0 z-40 flex items-end justify-center pb-8 md:pb-14">
-        <button className="pointer-events-auto rounded-full border border-white/70 px-8 py-3 text-[11px] uppercase tracking-[0.35em] mb-4 text-white/90 transition hover:bg-white hover:text-neutral-900">
+      <div className="pointer-events-none absolute inset-0 z-40 flex items-end justify-center px-4 pb-8 sm:pb-12 md:pb-16">
+        <button className="pointer-events-auto mb-2 rounded-full border border-white/70 px-6 py-3 text-[10px] uppercase tracking-[0.35em] text-white/90 transition hover:bg-white hover:text-neutral-900 sm:px-8 sm:text-[11px]">
           Shop All
         </button>
       </div>
