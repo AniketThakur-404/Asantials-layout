@@ -1,8 +1,12 @@
 // src/components/Layout.jsx
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import CartProvider from '../contexts/cart-context';
+import NotificationProvider from './NotificationProvider';
+import SearchOverlay from './SearchOverlay';
+import CartDrawer from './CartDrawer';
 
 const marqueeItems = [
   'ASANTIALS',
@@ -41,17 +45,40 @@ const TopAnnouncement = () => (
 );
 
 const Layout = () => {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  const outletContext = useMemo(
+    () => ({
+      openCartDrawer: () => setCartOpen(true),
+      closeCartDrawer: () => setCartOpen(false),
+    }),
+    [],
+  );
+
   return (
-    <div className="bg-white text-neutral-900 min-h-screen flex flex-col">
-      <TopAnnouncement />
-      <Navbar />
+    <CartProvider>
+      <NotificationProvider>
+        <div className="bg-white text-neutral-900 min-h-screen flex flex-col">
+          <div className="sticky top-0 z-50">
+            <TopAnnouncement />
+            <Navbar
+              onSearchClick={() => setSearchOpen(true)}
+              onCartClick={() => setCartOpen(true)}
+            />
+          </div>
 
-      <main className="flex-grow">
-        <Outlet />
-      </main>
+          <main className="flex-grow">
+            <Outlet context={outletContext} />
+          </main>
 
-      <Footer />
-    </div>
+          <Footer />
+
+          <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+          <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+        </div>
+      </NotificationProvider>
+    </CartProvider>
   );
 };
 

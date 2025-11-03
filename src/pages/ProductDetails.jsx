@@ -1,151 +1,190 @@
 // src/pages/ProductDetails.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import ProductCard from '../components/ProductCard';
+import {
+  formatPrice,
+  getProductBySlug,
+  getRelatedProducts,
+  toProductCard,
+} from '../data/products';
+import { useCart } from '../contexts/cart-context';
+import { useNotifications } from '../components/NotificationProvider';
 
-const imageUrl = (file) => `${import.meta.env?.BASE_URL ?? '/'}images/${file}`;
-
-const productData = {
-  name: 'GREY CHECKMATE T-SHIRT',
-  price: 'Rs. 4,700',
-  description:
-    'THE GREY CHECKMATE T-SHIRT CAPTURES THE SPIRIT OF STRATEGY AND STYLE IN ONE BOLD DESIGN. CRAFTED FROM 100% PREMIUM COTTON WITH A HEAVYWEIGHT 260 GSM FABRIC, IT DELIVERS LASTING COMFORT AND STRUCTURE. THE STRIKING PUFF PRINTED CHESS T-SHIRT DESIGN ON THE FRONT SHOWCASES A MODERN TWIST ON CLASSIC GAME ELEMENTS, MAKING IT A MUST-HAVE FOR EVERY CHESS T-SHIRT ENTHUSIAST.',
-  details: '100% COTTON',
-  weight: '260 GSM',
-  care: 'REVERSE WASH ONLY',
-  shipping: 'PACKED WITHIN 24 HOURS. FREE DELIVERY PAN-INDIA. DISPATCHES NEXT DAY.',
-  images: [imageUrl('m1.jpg'), imageUrl('m2.jpg'), imageUrl('m3.jpg')],
-  availableSizes: ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
-};
-
-const relatedProducts = [
-  { title: 'Molten Rogue Tee', price: 'Rs. 3,500', img: imageUrl('m4.jpg'), href: '#' },
-  { title: 'Olive Sentinel Hoodie', price: 'Rs. 3,700', img: imageUrl('p1.jpg'), href: '#' },
-  { title: 'Charcoal Hawk Hoodie', price: 'Rs. 3,900', img: imageUrl('p2.png'), href: '#' },
-  { title: 'Prism Long Sleeve', price: 'Rs. 3,600', img: imageUrl('mk1.jpg'), href: '#' },
-];
-
-const Header = () => (
-  <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex justify-between items-center">
-      <div className="flex items-center space-x-8">
-        <Link
-          to="/"
-          className="text-3xl font-extrabold uppercase tracking-[0.55em] text-black"
-        >
-          ASANTIALS
+const Breadcrumbs = ({ title, className = '' }) => (
+  <nav
+    aria-label="Breadcrumb"
+    className={`text-[11px] uppercase tracking-[0.35em] text-neutral-500 ${className}`}
+  >
+    <ol className="flex flex-wrap items-center gap-2">
+      <li>
+        <Link to="/" className="transition-colors hover:text-neutral-900">
+          Home
         </Link>
-        <nav className="hidden lg:flex space-x-10 text-xs font-semibold uppercase tracking-wider text-gray-700">
-          <Link to="/new-in" className="hover:text-gray-900">
-            New In
-          </Link>
-          <Link to="/apparel" className="hover:text-gray-900">
-            Apparel
-          </Link>
-          <Link to="/stores" className="hover:text-gray-900">
-            Stores
-          </Link>
-        </nav>
-      </div>
-      <div className="flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider text-gray-700">
-        <button type="button" className="hover:text-gray-900">
-          Search
-        </button>
-        <Link to="/login" className="hover:text-gray-900">
-          Login
+      </li>
+      <li>/</li>
+      <li>
+        <Link to="/apparel" className="transition-colors hover:text-neutral-900">
+          All Products
         </Link>
-        <Link to="/cart" className="flex items-center hover:text-gray-900">
-          Cart
-          <span className="ml-2 text-white bg-black rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold">
-            1
-          </span>
-        </Link>
-      </div>
-    </div>
-  </header>
+      </li>
+      <li>/</li>
+      <li className="text-neutral-900">{title}</li>
+    </ol>
+  </nav>
 );
 
-const ProductPage = () => {
-  const [selectedSize, setSelectedSize] = useState('L');
+const NotFound = () => (
+  <section className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 py-24 text-center">
+    <h1 className="text-xl font-semibold uppercase tracking-[0.35em] text-neutral-900">
+      Product Not Found
+    </h1>
+    <p className="max-w-xl text-sm leading-relaxed text-neutral-600">
+      The product you are looking for might be sold out or moved. Browse the latest arrivals and discover new pieces crafted in limited batches.
+    </p>
+    <Link
+      to="/"
+      className="rounded-full border border-neutral-900 px-6 py-3 text-[11px] uppercase tracking-[0.32em] transition hover:bg-neutral-900 hover:text-white"
+    >
+      Back to Shop
+    </Link>
+  </section>
+);
+
+const ProductDetails = () => {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { openCartDrawer } = useOutletContext() ?? {};
+  const { addItem } = useCart();
+  const { notify } = useNotifications();
+  const product = getProductBySlug(slug);
+  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] ?? null);
   const [pincode, setPincode] = useState('');
 
-  const galleryImages = productData.images;
+  useEffect(() => {
+    setSelectedSize(product?.sizes?.[0] ?? null);
+    setPincode('');
+  }, [product]);
+
+  useEffect(() => {
+    if (!product) return;
+    const focusSize = location.state?.focusSize;
+    if (focusSize && product.sizes?.includes(focusSize)) {
+      setSelectedSize(focusSize);
+    }
+  }, [location.state, product]);
+
+  const hasSizes = (product?.sizes?.length ?? 0) > 0;
+
+  const relatedProducts = useMemo(() => {
+    if (!product) return [];
+    return getRelatedProducts(product.slug).map((item) => toProductCard(item));
+  }, [product]);
+
+  if (!product) {
+    return <NotFound />;
+  }
+
+  const handleAddToCart = () => {
+    const size = selectedSize ?? product.sizes?.[0] ?? null;
+    addItem(product.slug, { size: hasSizes ? size : null });
+    notify({
+      title: 'Added to Cart',
+      message: `${product.title}${hasSizes && size ? ` · Size ${size}` : ''}`,
+      actionLabel: 'View Cart',
+      onAction: () => navigate('/cart'),
+    });
+    openCartDrawer?.();
+  };
+
+  const handleBuyNow = () => {
+    const size = selectedSize ?? product.sizes?.[0] ?? null;
+    addItem(product.slug, { size: hasSizes ? size : null });
+    if (openCartDrawer) {
+      openCartDrawer();
+    } else {
+      navigate('/cart');
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white text-black font-sans">
-      <Header />
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-24">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-8">
-          <div className="lg:col-span-3 space-y-6 lg:sticky lg:top-24 lg:self-start lg:min-h-[calc(100vh-6rem)]">
-            <div className="text-xs text-gray-500">
-              <Link to="/" className="hover:text-black">
-                Home
-              </Link>{' '}
-              /{' '}
-              <Link to="/apparel" className="hover:text-black">
-                All Products
-              </Link>{' '}
-              / {productData.name}
-            </div>
+    <article className="bg-white">
+      <div className="mx-auto w-full max-w-7xl px-4 pb-20 pt-8 sm:px-6 lg:px-8">
+        <div className="gap-y-10 lg:grid lg:grid-cols-12 lg:gap-x-10">
+          <div className="lg:col-span-3 space-y-6 lg:sticky lg:top-32 lg:self-start">
+            <Breadcrumbs title={product.title} className="mb-6" />
             <div>
-              <h1 className="text-3xl font-bold tracking-tight mb-2">{productData.name}</h1>
-              <p className="text-xl font-medium">{productData.price}</p>
+              <h1 className="text-3xl font-semibold uppercase tracking-[0.25em] text-neutral-900">
+                {product.headline ?? product.title}
+              </h1>
+              <p className="mt-3 text-lg tracking-[0.18em] text-neutral-600">
+                {formatPrice(product.price)}
+              </p>
             </div>
-            <div className="space-y-5 text-sm">
-              <div>
-                <h3 className="font-semibold uppercase mb-2">Description</h3>
-                <p className="text-gray-600 leading-relaxed">{productData.description}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold uppercase mb-2">Details</h3>
-                <p className="text-gray-600">{productData.details}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold uppercase mb-2">Weight</h3>
-                <p className="text-gray-600">{productData.weight}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold uppercase mb-2">Puff Print</h3>
-                <p className="text-gray-600">{productData.care}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold uppercase mb-2">Shipping</h3>
-                <p className="text-gray-600">{productData.shipping}</p>
-              </div>
-            </div>
-          </div>
 
-          <div className="lg:col-span-5 my-10 lg:my-0">
-            <div className="flex flex-col gap-y-4">
-              {galleryImages.map((img, index) => (
-                <img
-                  key={img}
-                  src={img}
-                  alt={`${productData.name} image ${index + 1}`}
-                  className="w-full h-auto object-cover"
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
-            <div className="flex min-h-full flex-col space-y-6 lg:min-h-[calc(100vh-6rem)]">
+            <div className="space-y-5 text-sm leading-relaxed text-neutral-600">
               <section>
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-sm font-semibold uppercase">Size</h3>
-                  <button className="text-xs text-black font-semibold uppercase tracking-wider hover:underline">
-                    Size Chart
+                <h2 className="mb-2 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
+                  Description
+                </h2>
+                <p>{product.description}</p>
+              </section>
+              <section>
+                <h2 className="mb-2 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
+                  Details
+                </h2>
+                <p>{product.details}</p>
+              </section>
+              <section className="flex flex-wrap gap-6 text-xs uppercase tracking-[0.25em] text-neutral-700">
+                <span>{product.weight}</span>
+                <span>{product.care}</span>
+              </section>
+              <section>
+                <h2 className="mb-2 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
+                  Shipping
+                </h2>
+                <p>{product.shipping}</p>
+              </section>
+            </div>
+          </div>
+
+          <div className="my-10 space-y-4 lg:col-span-5 lg:my-0">
+            {product.images.map((src, index) => (
+              <img
+                key={src ?? index}
+                src={src}
+                alt={`${product.title} view ${index + 1}`}
+                className="w-full rounded-lg bg-neutral-100 object-cover"
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+            ))}
+          </div>
+
+          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-32 lg:self-start">
+            {hasSizes && (
+              <section>
+                <div className="mb-4 flex items-center justify-between">
+                  <h2 className="text-[11px] uppercase tracking-[0.35em] text-neutral-500">
+                    Size
+                  </h2>
+                  <button
+                    type="button"
+                    className="text-[10px] uppercase tracking-[0.3em] text-neutral-900 underline-offset-4 transition hover:underline"
+                  >
+                    Size Guide
                   </button>
                 </div>
                 <div className="grid grid-cols-4 gap-3">
-                  {productData.availableSizes.map((size) => (
+                  {product.sizes.map((size) => (
                     <button
                       key={size}
+                      type="button"
                       onClick={() => setSelectedSize(size)}
-                      className={`p-3 border rounded-lg text-xs font-semibold transition-colors ${
+                      className={`rounded-lg border px-3 py-3 text-xs font-semibold uppercase tracking-[0.25em] transition ${
                         selectedSize === size
-                          ? 'bg-black text-white border-black'
-                          : 'bg-white text-gray-900 border-gray-300 hover:border-black'
+                          ? 'border-neutral-900 bg-neutral-900 text-white'
+                          : 'border-neutral-200 text-neutral-700 hover:border-neutral-900'
                       }`}
                     >
                       {size}
@@ -153,77 +192,81 @@ const ProductPage = () => {
                   ))}
                 </div>
               </section>
+            )}
 
-              <div className="flex items-center text-sm pt-2">
-                <input
-                  type="checkbox"
-                  id="giftCard"
-                  className="mr-3 h-4 w-4 text-black border-gray-300 rounded focus:ring-black"
-                />
-                <label htmlFor="giftCard" className="font-medium text-gray-700">
-                  Have a gift card?
-                </label>
-              </div>
-
-              <div className="space-y-4">
-                <button
-                  className="w-full py-4 text-white bg-black rounded-lg font-semibold text-sm tracking-wider uppercase hover:opacity-90 transition-opacity"
-                  onClick={() => window.alert(`Added ${productData.name} (${selectedSize}) to cart!`)}
-                >
-                  Add to cart
-                </button>
-                <button
-                  className="w-full py-4 text-black bg-white border border-black rounded-lg font-semibold text-sm tracking-wider uppercase hover:bg-gray-50 transition-colors"
-                  onClick={() => window.alert(`Buying ${productData.name} (${selectedSize}) now!`)}
-                >
-                  Buy now
-                </button>
-              </div>
-
-              <section className="pt-4 space-y-4">
-                <h3 className="font-semibold text-sm uppercase">Delivery Details</h3>
-                <div className="flex space-x-3">
-                  <input
-                    type="text"
-                    placeholder="Enter your pincode"
-                    value={pincode}
-                    onChange={(e) => setPincode(e.target.value)}
-                    className="flex-grow p-3 border border-gray-300 rounded-lg text-sm focus:ring-black focus:border-black placeholder-gray-500"
-                  />
-                  <button
-                    className="px-6 py-3 text-white bg-black rounded-lg font-semibold text-sm hover:bg-gray-800 transition-colors"
-                    onClick={() => window.alert(`Checking delivery for Pincode: ${pincode}`)}
-                  >
-                    Check
-                  </button>
-                </div>
-              </section>
+            <div className="flex items-center gap-3 text-sm">
+              <input
+                type="checkbox"
+                id="giftCard"
+                className="h-4 w-4 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-900"
+              />
+              <label htmlFor="giftCard" className="text-neutral-600">
+                Have a gift card?
+              </label>
             </div>
+
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                className="w-full rounded-full bg-neutral-900 py-4 text-[11px] uppercase tracking-[0.35em] text-white transition hover:bg-neutral-800"
+              >
+                Add to Cart
+              </button>
+              <button
+                type="button"
+                onClick={handleBuyNow}
+                className="w-full rounded-full border border-neutral-900 py-4 text-[11px] uppercase tracking-[0.35em] text-neutral-900 transition hover:bg-neutral-900 hover:text-white"
+              >
+                Buy Now
+              </button>
+            </div>
+
+            <section className="space-y-3">
+              <h2 className="text-[11px] uppercase tracking-[0.35em] text-neutral-500">
+                Delivery Details
+              </h2>
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  value={pincode}
+                  onChange={(event) => setPincode(event.target.value)}
+                  placeholder="Enter your pincode"
+                  className="flex-1 rounded-full border border-neutral-200 px-5 py-3 text-sm tracking-[0.2em] text-neutral-700 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                />
+                <button
+                  type="button"
+                  className="rounded-full border border-neutral-900 px-6 py-3 text-[11px] uppercase tracking-[0.32em] text-neutral-900 transition hover:bg-neutral-900 hover:text-white"
+                  onClick={() => {
+                    if (!pincode.trim()) return;
+                    window.alert(`Checking delivery availability for ${pincode.trim()}`);
+                  }}
+                >
+                  Check
+                </button>
+              </div>
+            </section>
           </div>
         </div>
 
-        <section className="mt-24">
-          <h2 className="text-xl font-bold mb-8">You may also like</h2>
-          <div className="grid grid-cols-2 gap-4 md:auto-cols-[minmax(220px,1fr)] md:grid-flow-col md:grid-cols-none">
-            {relatedProducts.map((item) => (
-              <Link to={item.href} key={item.title} className="space-y-2 group">
-                <div className="bg-gray-100 rounded-lg overflow-hidden">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                </div>
-                <p className="text-sm font-medium">{item.title}</p>
-                <p className="text-sm text-gray-600">{item.price}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      </main>
-    </div>
+        {relatedProducts.length > 0 && (
+          <section className="mt-24">
+            <div className="border-t border-neutral-200 py-4">
+              <h2 className="text-[11px] uppercase tracking-[0.35em] text-neutral-600">
+                You May Also Like
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {relatedProducts.map((item) => (
+                <ProductCard key={item.href} item={item} />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </article>
   );
 };
 
-export default ProductPage;
+export default ProductDetails;

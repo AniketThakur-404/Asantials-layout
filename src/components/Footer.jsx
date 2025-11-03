@@ -1,13 +1,13 @@
 // src/components/Footer.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const shippingMessages = [
-  'Shipping Worldwide',
-  'Asantials Express Dispatch',
-  'Track Your Order 24/7',
-  'Complimentary Pick-Ups For Returns',
-  'Exclusive Online Drops',
+  "Shipping Worldwide",
+  "Asantials Express Dispatch",
+  "Track Your Order 24/7",
+  "Complimentary Pick-Ups For Returns",
+  "Exclusive Online Drops",
 ];
 
 const ShippingStripe = () => (
@@ -37,6 +37,7 @@ const SiteFooter = () => (
   <footer className="border-t border-neutral-200 bg-white">
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-3">
+        {/* Column: Company */}
         <div className="text-sm text-neutral-700">
           <div className="mb-3 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
             Company
@@ -75,6 +76,7 @@ const SiteFooter = () => (
           </ul>
         </div>
 
+        {/* Column: Help */}
         <div className="text-sm text-neutral-700">
           <div className="mb-3 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
             Help
@@ -113,6 +115,7 @@ const SiteFooter = () => (
           </ul>
         </div>
 
+        {/* Column: Connect */}
         <div className="text-sm text-neutral-700">
           <div className="mb-3 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
             Connect
@@ -144,7 +147,7 @@ const SiteFooter = () => (
             </a>
           </div>
           <p className="mt-6 text-[11px] uppercase tracking-[0.35em] text-neutral-500">
-            (c) 2025 Asantials Retail Private Limited. All Rights Reserved.
+            © 2025 Asantials Retail Private Limited. All Rights Reserved.
           </p>
         </div>
       </div>
