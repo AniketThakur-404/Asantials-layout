@@ -209,14 +209,14 @@ const ProductDetails = () => {
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="w-full rounded-full bg-neutral-900 py-4 text-[11px] uppercase tracking-[0.35em] text-white transition hover:bg-neutral-800"
+                className="w-full rounded-full bg-neutral-900 py-4 text-[11px] uppercase tracking-[0.35em] text-white transition-transform duration-200 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 active:scale-95"
               >
                 Add to Cart
               </button>
               <button
                 type="button"
                 onClick={handleBuyNow}
-                className="w-full rounded-full border border-neutral-900 py-4 text-[11px] uppercase tracking-[0.35em] text-neutral-900 transition hover:bg-neutral-900 hover:text-white"
+                className="w-full rounded-full border border-neutral-900 py-4 text-[11px] uppercase tracking-[0.35em] text-neutral-900 transition-transform duration-200 hover:bg-neutral-900 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 active:scale-95"
               >
                 Buy Now
               </button>

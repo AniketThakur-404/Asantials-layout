@@ -1,10 +1,42 @@
 // src/pages/AllProductsPage.jsx
 import React, { useMemo } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Star } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { categories, products, toProductCard } from '../data/products';
 
 const navItems = [{ value: 'all', label: 'View All' }, ...categories];
+
+const toneReviews = [
+  {
+    initials: 'KS',
+    name: 'Karan S.',
+    role: 'Verified Drop Member',
+    quote:
+      'Every drop feels limited and intentional. Fabric weight on the tees is exactly what I want for daily rotation.',
+  },
+  {
+    initials: 'AA',
+    name: 'Anaya A.',
+    role: 'Studio Stylist',
+    quote:
+      'The hoodies hold their shape even after long shifts on set. Love the detailing and clean branding.',
+  },
+  {
+    initials: 'RM',
+    name: 'Rhea M.',
+    role: 'Creative Consultant',
+    quote:
+      'Colour stories across the collection are so cohesive. Easy to build layered looks without overthinking.',
+  },
+  {
+    initials: 'DV',
+    name: 'Dhruv V.',
+    role: 'Retail Partner',
+    quote:
+      'Customers ask for these fits by name. The oversized profiles and finishing feel premium straight off the rack.',
+  },
+];
 
 const useActiveCategory = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -104,6 +136,40 @@ const AllProductsPage = () => {
           Use the search experience
         </Link>
       </footer>
+
+      <section className="mt-20 border-t border-neutral-200 pt-12">
+        <div className="flex flex-col gap-4 text-neutral-900 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.35em] text-neutral-500">Collective Notes</p>
+            <h2 className="mt-2 text-lg uppercase tracking-[0.28em]">Trusted by the Crew</h2>
+          </div>
+          <div className="flex items-center gap-1 text-amber-500">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <Star key={index} className="h-4 w-4 fill-current" strokeWidth={1.5} />
+            ))}
+          </div>
+        </div>
+
+        <div className="no-scrollbar mt-8 flex gap-6 overflow-x-auto pb-4">
+          {toneReviews.map((review) => (
+            <article
+              key={review.name}
+              className="min-w-[260px] max-w-sm rounded-3xl border border-neutral-200 bg-white/90 p-6 shadow-[0_20px_50px_-40px_rgba(0,0,0,0.45)]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-900 text-[11px] uppercase tracking-[0.2em] text-white">
+                  {review.initials}
+                </div>
+                <div className="text-xs uppercase tracking-[0.24em] text-neutral-500">
+                  <p className="text-neutral-900">{review.name}</p>
+                  <p>{review.role}</p>
+                </div>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-neutral-600">{review.quote}</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </section>
   );
 };

@@ -11,11 +11,15 @@ export default function HomePage() {
     <>
       <HeroWith3D heroVideoSrc={heroVideo} />
 
-      <ProductGrid title="Latest Drop" products={latestDrop} />
+      <ProductGrid
+        title="Latest Drop"
+        products={latestDrop}
+        ctaHref="/products?category=t-shirts"
+      />
 
       <VideoBanner />
 
-      <ProductGrid title="More From Asantials" products={moreFrom} />
+      <ProductGrid title="More From Asantials" products={moreFrom} ctaHref="/products" />
     </>
   );
 }

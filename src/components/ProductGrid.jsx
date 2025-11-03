@@ -1,15 +1,19 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
-const SectionHeader = ({ title }) => (
+const SectionHeader = ({ title, ctaHref, ctaLabel }) => (
   <div className="flex flex-col gap-4 border-t border-neutral-200 py-4 uppercase md:flex-row md:items-center md:justify-between">
     <h2 className="text-xs tracking-[0.35em] text-neutral-600">{title}</h2>
-    <button className="flex items-center gap-2 self-start rounded-full border border-neutral-900 px-5 py-2 text-[10px] tracking-[0.32em] transition hover:bg-neutral-900 hover:text-white sm:self-end md:self-auto">
-      Discover More
+    <Link
+      to={ctaHref}
+      className="flex items-center gap-2 self-start rounded-full border border-neutral-900 px-5 py-2 text-[10px] tracking-[0.32em] transition hover:bg-neutral-900 hover:text-white sm:self-end md:self-auto"
+    >
+      {ctaLabel}
       <ChevronRight className="h-3 w-3" />
-    </button>
+    </Link>
   </div>
 );
 
@@ -18,11 +22,11 @@ const cardVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
 };
 
-export default function ProductGrid({ title, products }) {
+export default function ProductGrid({ title, products, ctaHref = "/products", ctaLabel = "Discover More" }) {
   return (
     // Keep desktop width capped so the four-up layout keeps similar card widths
     <section className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 md:px-8 lg:px-2 py-9">
-      <SectionHeader title={title} />
+      <SectionHeader title={title} ctaHref={ctaHref} ctaLabel={ctaLabel} />
 
       {/* Four-up on large screens with consistent spacing */}
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:gap-5 lg:grid-cols-4 lg:gap-2">
@@ -41,9 +45,12 @@ export default function ProductGrid({ title, products }) {
       </div>
 
       <div className="flex justify-center py-5">
-        <button className="rounded-full border border-neutral-900 px-8 py-3 text-[11px] uppercase tracking-[0.3em] transition hover:bg-neutral-900 hover:text-white">
-          Discover More
-        </button>
+        <Link
+          to={ctaHref}
+          className="rounded-full border border-neutral-900 px-8 py-3 text-[11px] uppercase tracking-[0.3em] transition hover:bg-neutral-900 hover:text-white"
+        >
+          {ctaLabel}
+        </Link>
       </div>
     </section>
   );

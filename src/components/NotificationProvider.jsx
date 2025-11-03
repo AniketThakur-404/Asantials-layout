@@ -67,7 +67,7 @@ const NotificationProvider = ({ children }) => {
   return (
     <NotificationContext.Provider value={value}>
       {children}
-      <div className="pointer-events-none fixed right-4 top-24 z-[1000] flex w-full max-w-xs flex-col gap-3 sm:right-6 sm:max-w-sm">
+      <div className="pointer-events-none fixed left-1/2 top-20 z-[1000] flex w-full max-w-md -translate-x-1/2 flex-col gap-3 px-4 sm:top-24">
         {notifications.map((notification) => (
           <div
             key={notification.id}
