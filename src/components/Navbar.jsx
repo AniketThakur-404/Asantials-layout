@@ -24,18 +24,8 @@ const Navbar = () => {
     >
       {/* relative wrapper so we can absolutely center the middle nav */}
       <div className="relative mx-auto h-14 w-full max-w-[1280px] px-6">
-        {/* Left: Logo */}
-        <div className="absolute left-6 top-1/2 -translate-y-1/2">
-          <Link
-            to="/"
-            className="font-extrabold tracking-[0.55em] text-[13px] leading-none text-neutral-900"
-          >
-            ASANTIALS
-          </Link>
-        </div>
-
-        {/* Center: Nav (perfect center like BLUORNG) */}
-        <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:flex items-center gap-14">
+        {/* Left: Nav */}
+        <nav className="absolute left-6 top-1/2 hidden -translate-y-1/2 md:flex items-center gap-14">
           <NavLink
             to="/new-in"
             className={({ isActive }) =>
@@ -52,15 +42,17 @@ const Navbar = () => {
           >
             APPAREL
           </NavLink>
-          <NavLink
-            to="/stores"
-            className={({ isActive }) =>
-              `${navItem} ${isActive ? 'text-neutral-900 font-semibold' : 'text-neutral-600 hover:text-neutral-900'}`
-            }
-          >
-            STORES
-          </NavLink>
         </nav>
+
+        {/* Center: Logo */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Link
+            to="/"
+            className="font-extrabold tracking-[0.55em] text-[13px] leading-none text-neutral-900"
+          >
+            ASANTIALS
+          </Link>
+        </div>
 
         {/* Right: Actions */}
         <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-10">

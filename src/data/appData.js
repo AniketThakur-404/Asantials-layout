@@ -10,6 +10,7 @@ export const latestDrop = [
     price: 'Rs 14,700',
     img: img('m1.jpg'),
     badge: 'New',
+    href: '/product/aeroflex',
   },
   {
     title: 'White Commitment Tee',

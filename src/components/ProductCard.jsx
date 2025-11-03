@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ item }) {
-  const { img, title, price, badge } = item;
+  const { img, title, price, badge, href } = item;
 
-  return (
-    <article className="group flex h-full flex-col">
+  const card = (
+    <article className="group flex h-full flex-col transition hover:-translate-y-1">
       <div className="relative aspect-[5/6] overflow-hidden bg-neutral-100">
         <img
           src={img}
@@ -33,4 +34,17 @@ export default function ProductCard({ item }) {
       </div>
     </article>
   );
+
+  if (href) {
+    return (
+      <Link
+        to={href}
+        className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
+      >
+        {card}
+      </Link>
+    );
+  }
+
+  return card;
 }
